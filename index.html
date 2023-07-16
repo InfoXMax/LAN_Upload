@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Upload</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            background-color: #fcfcfc;
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .file-upload {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 16px;
+            font-weight: 400;
+            color: #2e2e2e;
+            margin-bottom: 10px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 10px;
+            border: 3px dotted #a3a3a3;
+            border-radius: 5px;
+            padding: 20px;
+            outline: none;
+        }
+
+        button[type="submit"] {
+            text-decoration: none;
+            background-color: #005af0;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            outline: none;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            text-decoration: none;
+            background-color: #ffffff;
+            color: #005af0;
+            padding: 10px 20px;
+            border: none;
+            outline: 1px solid #010101;
+        }
+
+        #message {
+            font-size: 16px;
+            font-weight: 400;
+            color: #2e2e2e;
+            margin-top: 20px;
+        }
+    </style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="container">
+        <h1>File Upload</h1>
+        <form id="upload-form" enctype="multipart/form-data">
+            <div class="file-upload">
+                <label for="file-input">Choose a file:</label>
+                <input type="file" id="file-input" name="file" />
+            </div>
+            <button type="submit">Upload</button>
+        </form>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        document.getElementById('upload-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var fileInput = document.getElementById('file-input');
+            var file = fileInput.files[0];
+            var formData = new FormData();
+            formData.append('file', file);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/upload');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    document.getElementById('message').innerHTML = 'File uploaded successfully.';
+                } else {
+                    document.getElementById('message').innerHTML = 'An error occurred while uploading the file.';
+                }
+            };
+            xhr.send(formData);
+        });
+    </script>
+</body>
+</html>
